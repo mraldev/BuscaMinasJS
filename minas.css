@@ -91,3 +91,37 @@ body {
 .casilla:hover {
     background: #999;
 }
+
+.casilla.bomba-revelada {
+    background: #ffb3b3;
+    border: 2px solid #ff5555;
+}
+
+.casilla.bomba-perdedora {
+    background: #ff0000;
+    border: 3px solid #ffff00;
+    box-shadow: 0 0 12px 4px #ff0000;
+    color: white;
+    animation: bomba-perdedora 0.8s infinite alternate;
+}
+
+.casilla.bomba-bandera {
+    background: #777;
+    border: 2px solid #55cc55;
+}
+
+.casilla.bandera-incorrecta {
+    background: #ffb3b3;
+    border: 2px solid #ff5555;
+    color: red;
+}
+
+@keyframes bomba-perdedora {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.08);
+    }
+}

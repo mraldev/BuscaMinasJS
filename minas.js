@@ -186,6 +186,7 @@ const pulsadaDescubrir = (yInicial, xInicial) => {
             casilla.classList.add("bomba")
 
             mensaje.textContent = "Has perdido"
+            destaparTableroAlPerder(y, x)
             partida_terminada = true
             return
         }
@@ -241,6 +242,60 @@ const comprobarVictoria = () => {
         TAMANYO_TABLERO * TAMANYO_TABLERO - CANTIDAD_BOMBAS
 
     return casillasDescubiertas === casillasSinBombas
+}
+
+const destaparTableroAlPerder = (yPerdedora, xPerdedora) => {
+
+    for (let y = 0; y < TAMANYO_TABLERO; y++) {
+        for (let x = 0; x < TAMANYO_TABLERO; x++) {
+
+            const casilla = casillasHtml[y][x]
+            const estado = arrayTablero[0][y][x]
+            const contenido = arrayTablero[1][y][x]
+
+            casilla.classList.remove(
+                "bomba-revelada",
+                "bomba-perdedora",
+                "bomba-bandera",
+                "bandera-incorrecta"
+            )
+
+            casilla.classList.add("vista")
+
+            if (estado === 1) {
+
+                casilla.textContent = "🚩"
+
+                if (contenido === 9) {
+                    casilla.classList.add("bomba-bandera")
+                } else {
+                    casilla.classList.add("bandera-incorrecta")
+                }
+
+                continue
+            }
+
+            if (contenido === 9) {
+
+                casilla.textContent = "💣"
+
+                if (y === yPerdedora && x === xPerdedora) {
+                    casilla.classList.add("bomba-perdedora")
+                } else {
+                    casilla.classList.add("bomba-revelada")
+                }
+
+                continue
+            }
+
+            if (contenido === 0) {
+                casilla.textContent = ""
+            } else {
+                casilla.textContent = contenido
+                casilla.classList.add(`numero-${contenido}`)
+            }
+        }
+    }
 }
 
 const rellenarTablero = (ySegura, xSegura) => {
