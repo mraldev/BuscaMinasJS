@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    background: #222;
+    color: white;
+    font-family: Arial;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}
+
+.buscaminas {
+    text-align: center;
+}
+
+#tablero {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    gap: 2px;
+}
+
+.casilla {
+    width: 40px;
+    height: 40px;
+    background: #777;
+    border: 2px solid #aaa;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.casilla.vista {
+    background: #ccc;
+    border: 2px solid #aaa;
+    cursor: default;
+}
+
+.casilla.numero-1 {
+    color: blue;
+}
+
+.casilla.numero-2 {
+    color: green;
+}
+
+.casilla.numero-3 {
+    color: red;
+}
+
+.casilla.numero-4 {
+    color: purple;
+}
+
+.casilla.numero-5 {
+    color: brown;
+}
+
+.casilla.numero-6 {
+    color: turquoise;
+}
+
+.casilla.numero-7 {
+    color: black;
+}
+
+.casilla.numero-8 {
+    color: orange;
+}
+
+.casilla.bomba {
+    background: red;
+}
+
+.casilla.bandera {
+    background: #777;
+    border: 2px solid #aaa;
+    color: red;
+}
+
+.casilla.bandera:hover {
+    background: #999;
+}
+
+.casilla:hover {
+    background: #999;
+}
+
+.casilla.vista:hover {
+    background: #ccc;
+}
+
+.casilla:hover {
+    background: #999;
+}
