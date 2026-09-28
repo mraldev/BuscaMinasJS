@@ -105,10 +105,12 @@ const precalcularVecinos = () => {
 const obtenerVecinos = (y, x) => vecinosCache[y][x]
 
 const pulsarCasilla = (y, x, event) => {
-    if (event.button === 0) {
-        pulsadaDescubrir(y, x);
-    } else if (event.button === 2) {
-        pulsadaBandera(y, x);
+    if (!partida_terminada) {
+        if (event.button === 0) {
+            pulsadaDescubrir(y, x);
+        } else if (event.button === 2) {
+            pulsadaBandera(y, x);
+        }
     }
 }
 
@@ -138,10 +140,6 @@ const pulsadaBandera = (y, x) => {
 const pulsadaDescubrir = (yInicial, xInicial) => {
 
     const mensaje = document.getElementById("mensaje")
-
-    if (partida_terminada) {
-        return
-    }
 
     // Fuera del tablero
     if (
