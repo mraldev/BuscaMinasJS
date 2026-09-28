@@ -4,6 +4,7 @@ let CANTIDAD_BOMBAS = 10
 let TAMANYO_TABLERO = 10
 let casillasDescubiertas = 0
 let partida_terminada = false
+let bombasGeneradas = false
 
 /**
  * Array tridimensional que sirve para manejar el tablero de forma oculta e interna mediante el javascript
@@ -59,8 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
             tableroHtml.appendChild(casilla)
         }
     }
-
-    rellenarTablero()
 })
 
 /**
@@ -158,6 +157,12 @@ const pulsadaDescubrir = (yInicial, xInicial) => {
         return
     }
 
+    // En el primer descubrimiento real se generan las bombas, evitando esta casilla y sus vecinas
+    if (!bombasGeneradas && arrayTablero[0][yInicial][xInicial] === 0) {
+        rellenarTablero(yInicial, xInicial)
+        bombasGeneradas = true
+    }
+
     const pila = [[yInicial, xInicial]]
 
     while (pila.length > 0) {
@@ -238,8 +243,16 @@ const comprobarVictoria = () => {
     return casillasDescubiertas === casillasSinBombas
 }
 
-const rellenarTablero = () => {
+const rellenarTablero = (ySegura, xSegura) => {
+
+    // Casilla pulsada y sus vecinas
+    const zonaSegura = new Set(
+        [[ySegura, xSegura], ...obtenerVecinos(ySegura, xSegura)]
+            .map(([y, x]) => y * TAMANYO_TABLERO + x)
+    )
+
     let casillas = conseguirCasillas()
+        .filter(([y, x]) => !zonaSegura.has(y * TAMANYO_TABLERO + x))
 
     // Se randomizan todas las casillas disponibles
     for (let i = casillas.length - 1; i > 0; i--) {
