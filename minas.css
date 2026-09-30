@@ -1,21 +1,57 @@
 body {
     margin: 0;
-    background: #222;
+    background: #14171a;
     color: white;
-    font-family: Arial;
-    display: grid;
-    place-items: center;
-    height: 100vh;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
 
 .buscaminas {
     text-align: center;
+    margin: auto 0;
+    padding: 24px;
+    background: #222;
+    border-radius: 10px;
+    border: 2px solid #444;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+}
+
+.buscaminas h1 {
+    margin: 0 0 10px 0;
+    font-size: 28px;
+}
+
+#mensaje {
+    min-height: 24px;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.btn-reiniciar-buscaminas {
+    margin-bottom: 12px;
+    padding: 8px 18px;
+    background: #333;
+    color: #fff;
+    border: 1px solid #777;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-reiniciar-buscaminas:hover {
+    background: #555;
 }
 
 #tablero {
     display: grid;
     grid-template-columns: repeat(10, 40px);
     gap: 2px;
+    justify-content: center;
 }
 
 .casilla {
@@ -26,6 +62,13 @@ body {
     cursor: pointer;
     font-size: 20px;
     font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    user-select: none;
 }
 
 .casilla.vista {
@@ -124,4 +167,20 @@ body {
     to {
         transform: scale(1.08);
     }
+}
+
+.creditos-buscaminas {
+    margin-top: 18px;
+    font-size: 13px;
+    color: #aaa;
+}
+
+.creditos-buscaminas a {
+    color: #c7a76d;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.creditos-buscaminas a:hover {
+    color: #fff;
 }
