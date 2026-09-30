@@ -40,10 +40,12 @@ Algunas funcionalidades que se podrían añadir en el futuro:
 
 * Diferentes niveles de dificultad.
 * Cronómetro.
-* Cronómetro.
 * Guardado de mejores tiempos.
 * Diseño responsive.
 * Generación de un tablero con tamaño configurable.
+
+## Extras
+Este proyecto puede ser consumido de forma nativa en https://poker-online-psi.vercel.app/
 
 ## Autor
 Marcos Alonso Álvarez alias mraldev
