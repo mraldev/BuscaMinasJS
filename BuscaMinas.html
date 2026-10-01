@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Buscaminas</title>
     <link rel="stylesheet" href="minas.css">
 </head>
@@ -11,10 +12,34 @@
 
     <div class="buscaminas">
         <h1>Buscaminas</h1>
+
+        <div class="selector-dificultad">
+            <label for="dificultad">Dificultad</label>
+            <select id="dificultad" class="select-dificultad">
+                <option value="facil" selected>Fácil · 8×8 · 10 bombas</option>
+                <option value="medio">Medio · 12×12 · 25 bombas</option>
+                <option value="dificil">Difícil · 16×16 · 40 bombas</option>
+                <option value="experto">Experto · 20×20 · 80 bombas</option>
+                <option value="personalizado">Personalizado</option>
+            </select>
+        </div>
+
+        <div id="personalizado" class="fila-personalizada" style="display: none;">
+            <label for="inputTamanyo">Tamaño
+                <input type="number" id="inputTamanyo" class="input-dificultad" min="5" max="24" value="10">
+            </label>
+            <label for="inputBombas">Bombas
+                <input type="number" id="inputBombas" class="input-dificultad" min="1" value="10">
+            </label>
+            <button id="btnAplicar" class="btn-reiniciar-buscaminas" type="button">Aplicar</button>
+        </div>
+
         <button id="btnReiniciar" class="btn-reiniciar-buscaminas" type="button">Reiniciar Partida</button>
         <div id="cronometro">Tiempo: 0 s</div>
         <p id="mensaje"></p>
         <div id="tablero"></div>
+
+        <h3>Pulsa espacio para reiniciar la partida</h3>
     </div>
 
 </body>

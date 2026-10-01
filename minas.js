@@ -10,6 +10,19 @@ let intervaloCronometro = null
 let cronometroIniciado = false
 
 /**
+ * Niveles de dificultad predefinidos (tablero cuadrado de tamanyo x tamanyo)
+ */
+const DIFICULTADES = {
+    facil: { tamanyo: 8, bombas: 10 },
+    medio: { tamanyo: 12, bombas: 25 },
+    dificil: { tamanyo: 16, bombas: 40 },
+    experto: { tamanyo: 20, bombas: 80 }
+}
+
+const TAMANYO_MIN = 5
+const TAMANYO_MAX = 24
+
+/**
  * Array tridimensional que sirve para manejar el tablero de forma oculta e interna mediante el javascript
  * 
  * La primera dimensión (arrayTablero[0][6][7] por ejemplo) maneja la visibilidad de las casillas, de ello
@@ -32,19 +45,83 @@ let casillasHtml = Array.from(
 
 /**
  * Caché con los vecinos válidos de cada casilla
- * Se calcula una única vez al arrancar, ya que las posiciones relativas
- * de los vecinos nunca cambian mientras el tamaño del tablero sea fijo
+ * Se recalcula cada vez que cambia el tamaño del tablero
  */
 let vecinosCache = null
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    precalcularVecinos()
+    const selectDificultad = document.getElementById("dificultad")
+    const filaPersonalizada = document.getElementById("personalizado")
+
+    document.addEventListener("keydown", (event) => {
+        if (event.code === "Space") reiniciarPartida()
+    })
+
+    selectDificultad.addEventListener("change", () => {
+        const nivel = selectDificultad.value
+
+        if (nivel === "personalizado") {
+            filaPersonalizada.style.display = "flex"
+            return
+        }
+
+        filaPersonalizada.style.display = "none"
+        aplicarDificultad(DIFICULTADES[nivel].tamanyo, DIFICULTADES[nivel].bombas)
+    })
+
+    document.getElementById("btnAplicar").addEventListener("click", () => {
+        const tamanyo = parseInt(document.getElementById("inputTamanyo").value, 10)
+        const bombas = parseInt(document.getElementById("inputBombas").value, 10)
+        const maxBombas = tamanyo * tamanyo - 9
+
+        if (!(tamanyo >= TAMANYO_MIN && tamanyo <= TAMANYO_MAX)) {
+            document.getElementById("mensaje").textContent =
+                `El tamaño debe estar entre ${TAMANYO_MIN} y ${TAMANYO_MAX}`
+            return
+        }
+
+        if (!(bombas >= 1 && bombas <= maxBombas)) {
+            document.getElementById("mensaje").textContent =
+                `Las bombas deben estar entre 1 y ${maxBombas}`
+            return
+        }
+
+        aplicarDificultad(tamanyo, bombas)
+    })
+
+    document.getElementById("btnReiniciar").addEventListener("mousedown", () => {
+        reiniciarPartida()
+
+    })
+
+    const inicial = DIFICULTADES[selectDificultad.value]
+    aplicarDificultad(inicial.tamanyo, inicial.bombas)
+})
+
+/**
+ * Cambia el tamaño del tablero y el número de bombas, reconstruye las casillas
+ * HTML y deja la partida lista para empezar de cero
+ */
+const aplicarDificultad = (tamanyo, bombas) => {
+
+    TAMANYO_TABLERO = tamanyo
+    CANTIDAD_BOMBAS = bombas
 
     const tableroHtml = document.getElementById("tablero")
+    tableroHtml.innerHTML = ""
+    tableroHtml.style.setProperty("--tam", tamanyo)
+    tableroHtml.style.setProperty(
+        "--celda-max",
+        tamanyo <= 12 ? "40px" : tamanyo <= 16 ? "34px" : "30px"
+    )
 
-    for (let fila = 0; fila < arrayTablero[0].length; fila++) {
-        for (let columna = 0; columna < arrayTablero[0][0].length; columna++) {
+    casillasHtml = Array.from({ length: tamanyo }, () => Array(tamanyo))
+
+    precalcularVecinos()
+
+    for (let fila = 0; fila < tamanyo; fila++) {
+        for (let columna = 0; columna < tamanyo; columna++) {
 
             const casilla = document.createElement("button")
             casilla.className = "casilla"
@@ -64,11 +141,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    document.getElementById("btnReiniciar").addEventListener("mousedown", () => {
-        reiniciarPartida()
-
-    })
-})
+    reiniciarPartida()
+}
 
 const iniciarCronometro = () => {
     if (cronometroIniciado) {
@@ -383,7 +457,7 @@ const rellenarTablero = (ySegura, xSegura) => {
         casillas[j] = temporal
     }
 
-    // Se ponen las bombas en las 10 primeras casillas, como están randomizadas a efectos prácticos se ponen al azar
+    // Se ponen las bombas en las primeras casillas, como están randomizadas a efectos prácticos se ponen al azar
     for (let i = 0; i < CANTIDAD_BOMBAS; i++) {
         const [y, x] = casillas[i]
         arrayTablero[1][y][x] = 9

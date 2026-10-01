@@ -17,11 +17,57 @@ body {
     border-radius: 10px;
     border: 2px solid #444;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .buscaminas h1 {
     margin: 0 0 10px 0;
     font-size: 28px;
+}
+
+/* SELECTOR DE DIFICULTAD */
+.selector-dificultad,
+.fila-personalizada {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #9ca3af;
+}
+
+.fila-personalizada label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.fila-personalizada .btn-reiniciar-buscaminas {
+    margin-bottom: 0;
+}
+
+.select-dificultad,
+.input-dificultad {
+    background: #111417;
+    border: 1px solid #282f37;
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: #f1f5f9;
+    font-size: 14px;
+    outline: none;
+}
+
+.input-dificultad {
+    width: 64px;
+}
+
+.select-dificultad:focus,
+.input-dificultad:focus {
+    border-color: #c7a76d;
 }
 
 #mensaje {
@@ -47,20 +93,25 @@ body {
     background: #555;
 }
 
+/* --tam y --celda-max los define el JavaScript según la dificultad.
+   La celda se reduce sola si el tablero no cabe en pantallas estrechas */
 #tablero {
+    --tam: 10;
+    --celda-max: 40px;
+    --celda: min(var(--celda-max), calc((100vw - 90px) / var(--tam)));
     display: grid;
-    grid-template-columns: repeat(10, 40px);
+    grid-template-columns: repeat(var(--tam), var(--celda));
     gap: 2px;
     justify-content: center;
 }
 
 .casilla {
-    width: 40px;
-    height: 40px;
+    width: var(--celda);
+    height: var(--celda);
     background: #777;
     border: 2px solid #aaa;
     cursor: pointer;
-    font-size: 20px;
+    font-size: calc(var(--celda) * 0.5);
     font-weight: bold;
     display: flex;
     align-items: center;
