@@ -60,7 +60,39 @@ document.addEventListener("DOMContentLoaded", () => {
             tableroHtml.appendChild(casilla)
         }
     }
+
+    document.getElementById("btnReiniciar").addEventListener("mousedown", () => {
+        reiniciarPartida()
+
+    })
 })
+
+const reiniciarPartida = () => {
+
+    casillasDescubiertas = 0
+    partida_terminada = false
+    bombasGeneradas = false
+
+    arrayTablero = Array.from({ length: 2 }, () =>
+        Array.from({ length: TAMANYO_TABLERO }, () =>
+            Array(TAMANYO_TABLERO).fill(0)
+        )
+    )
+
+    for (let y = 0; y < TAMANYO_TABLERO; y++) {
+        for (let x = 0; x < TAMANYO_TABLERO; x++) {
+
+            const casilla = casillasHtml[y][x]
+
+            casilla.textContent = ""
+
+            casilla.className = "casilla"
+        }
+    }
+
+    document.getElementById("mensaje").textContent = ""
+}
+
 
 /**
  * Calcula y guarda en caché los vecinos de cada casilla del tablero
