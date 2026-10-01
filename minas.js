@@ -5,6 +5,9 @@ let TAMANYO_TABLERO = 10
 let casillasDescubiertas = 0
 let partida_terminada = false
 let bombasGeneradas = false
+let tiempo = 0
+let intervaloCronometro = null
+let cronometroIniciado = false
 
 /**
  * Array tridimensional que sirve para manejar el tablero de forma oculta e interna mediante el javascript
@@ -67,7 +70,36 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 
+const iniciarCronometro = () => {
+    if (cronometroIniciado) {
+        return
+    }
+
+    cronometroIniciado = true
+
+    intervaloCronometro = setInterval(() => {
+        tiempo++
+        document.getElementById("cronometro").textContent = `Tiempo: ${tiempo} s`
+    }, 1000)
+}
+
+const detenerCronometro = () => {
+    clearInterval(intervaloCronometro)
+    intervaloCronometro = null
+}
+
+const reiniciarCronometro = () => {
+    detenerCronometro()
+
+    tiempo = 0
+    cronometroIniciado = false
+
+    document.getElementById("cronometro").textContent = "Tiempo: 0 s"
+}
+
 const reiniciarPartida = () => {
+
+    reiniciarCronometro()
 
     casillasDescubiertas = 0
     partida_terminada = false
@@ -191,6 +223,7 @@ const pulsadaDescubrir = (yInicial, xInicial) => {
     if (!bombasGeneradas && arrayTablero[0][yInicial][xInicial] === 0) {
         rellenarTablero(yInicial, xInicial)
         bombasGeneradas = true
+        iniciarCronometro()
     }
 
     const pila = [[yInicial, xInicial]]
@@ -218,6 +251,7 @@ const pulsadaDescubrir = (yInicial, xInicial) => {
             mensaje.textContent = "Has perdido"
             destaparTableroAlPerder(y, x)
             partida_terminada = true
+            detenerCronometro()
             return
         }
 
@@ -237,6 +271,7 @@ const pulsadaDescubrir = (yInicial, xInicial) => {
 
     if (comprobarVictoria()) {
         mensaje.textContent = "Has ganado"
+        detenerCronometro()
         partida_terminada = true
     }
 }

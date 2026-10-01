@@ -184,3 +184,10 @@ body {
 .creditos-buscaminas a:hover {
     color: #fff;
 }
+
+#cronometro {
+    margin: 8px 0 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #c7a76d;
+}
